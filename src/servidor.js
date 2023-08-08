@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require('express')
 
-const app = express();
+const rotas = require('./rotas/rotas')
 
-const rotas = require('./rotas');
+const app = express()
 
-app.use(express.json());
+app.use(express.json())
 
-app.use(rotas);
+app.use(rotas)
 
-module.exports = app;
+module.exports = app

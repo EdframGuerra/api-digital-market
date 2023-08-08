@@ -1,4 +1,4 @@
-const exppress = require('express');
+const express = require('express');
 const { cadastrarUsuario } = require('../controladores/controladorUsuario');
 
 const rotas = express.Router()
