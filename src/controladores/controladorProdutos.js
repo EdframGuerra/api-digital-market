@@ -81,10 +81,29 @@ if (!nome && !quantidade && !categoria && !preco && !descricao && !imagem) {
 
 }
 
+const excluirProduto = async (req, res) => {
+    const { id } = req.params
+    const { id: idUsuario } = req.usuario
+
+    try {
+        const produtoExcluido = await knex('produtos').where({ id, usuario_id: idUsuario }).del()
+
+        if (!produtoExcluido) {
+            return res.status(403).json({ mensagem: 'O produto não foi excluído' })
+        }
+
+        return res.status(200).send()
+        
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor' })
+    }
+}
+
 
 module.exports = {
     listarProdutos,
     detalharProduto,
     cadastrarProduto,
-    atualizarProduto
+    atualizarProduto,
+    excluirProduto
 }
