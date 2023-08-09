@@ -57,8 +57,34 @@ const cadastrarProduto = async (req, res) => {
     }
 }
 
+const atualizarProduto = async (req, res) => {
+const { id } = req.params
+const { nome, quantidade, categoria, preco, descricao, imagem } = req.body
+const { id: idUsuario } = req.usuario
+
+if (!nome && !quantidade && !categoria && !preco && !descricao && !imagem) {
+    return res.status(400).json({ mensagem: 'Informe ao menos um campo para atualizar' })
+}
+
+    try {
+        const produtoAtualizado = await knex('produtos').where({ id, usuario_id: idUsuario }).update({ nome, quantidade, categoria, preco, descricao, imagem })
+
+        if (!produtoAtualizado) {
+            return res.status(403).json({ mensagem: 'O produto não foi atualizado' })
+        }
+
+        return res.status(200).send()
+        
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno do servidor' })
+    }
+
+}
+
+
 module.exports = {
     listarProdutos,
     detalharProduto,
-    cadastrarProduto
+    cadastrarProduto,
+    atualizarProduto
 }
